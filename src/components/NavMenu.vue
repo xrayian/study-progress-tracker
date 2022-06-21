@@ -5,7 +5,7 @@
 </script>
 
 <template>
-    <el-menu mode="horizontal" default-active="0" :ellipsis="false" @select="null" router>
+    <el-menu mode="horizontal" :ellipsis="false" router>
         <p class="logo">Amar Progress</p>
         <div class="flex-grow"></div>
         <el-menu-item index="0" :route="{ name: 'home' }"> Home </el-menu-item>
