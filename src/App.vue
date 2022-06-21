@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import NavMenu from './components/NavMenu.vue';
+import FooterMenu from './components/FooterMenu.vue';
 </script>
 
 <template>
@@ -12,7 +13,7 @@ import NavMenu from './components/NavMenu.vue';
       <RouterView />
     </el-main>
     <el-footer>
-      Study Management Helper by <el-link target="_blank" href="https://www.rayianmahi.com">Rayian Mahi</el-link>
+      <footer-menu />
     </el-footer>
   </el-container>
 </template>

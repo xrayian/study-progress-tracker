@@ -6,15 +6,21 @@
 
 <template>
     <el-menu mode="horizontal" default-active="0" :ellipsis="false" @select="null" router>
-        <el-menu-item>Amar Progress</el-menu-item>
+        <p class="logo">Amar Progress</p>
         <div class="flex-grow"></div>
         <el-menu-item index="0" :route="{ name: 'home' }"> Home </el-menu-item>
-        <el-menu-item index="1" :route="{ name: 'about' }"> About </el-menu-item>
+        <el-menu-item index="1" :route="{ name: 'progress-control' }"> Progress </el-menu-item>
+        <el-menu-item index="2" :route="{ name: 'about' }"> About </el-menu-item>
     </el-menu>
 </template>
 
 <style scoped>
 .flex-grow {
     flex-grow: 1;
+}
+
+.logo {
+    font-size: 1.0em;
+    padding-left: 1em;
 }
 </style>
