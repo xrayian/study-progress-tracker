@@ -5,11 +5,11 @@ import FooterMenu from './components/FooterMenu.vue';
 </script>
 
 <template>
-  <el-container>
+  <el-container class="flex flex-col h-screen">
     <el-header>
       <nav-menu />
     </el-header>
-    <el-main>
+    <el-main class="flex-grow">
       <RouterView />
     </el-main>
     <el-footer>
@@ -23,5 +23,25 @@ import FooterMenu from './components/FooterMenu.vue';
 
 :root {
   font-family: 'Poppins', sans-serif;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: 100vh;
+  background: var(--el-color-primary-light-9);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--el-color-primary-light-3);
+
+  border-radius: 100vh;
+  /* border: 3px solid #f6f7ed; */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--el-color-primary);
 }
 </style>
