@@ -86,10 +86,12 @@ const handleSelect = (key: string, keyPath: string[]) => {
 
 const toggleMcq = (index: number, chapter: Chapter) => {
     console.log(index, chapter)
+    chapter.mcq = !chapter.mcq
 }
 
 const toggleCq = (index: number, chapter: Chapter) => {
     console.log(index, chapter)
+    chapter.cq = !chapter.cq
 }
 </script>
 
