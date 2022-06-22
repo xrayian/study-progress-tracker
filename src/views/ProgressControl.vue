@@ -1,22 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import type { Subject, Chapter } from '@/interfaces';
 
-interface Chapter {
-    id: number,
-    number: number,
-    name: string,
-    progress: number,
-    cq: boolean,
-    mcq: boolean,
-}
-
-interface Subject {
-    id: number,
-    name: string,
-    slug: string,
-    group: string,
-}
 
 const activeSubject = ref('Bangla 1st Paper')
 const subjectList: Subject[] = [
@@ -34,14 +20,62 @@ const subjectList: Subject[] = [
     },
     {
         id: 3,
+        name: "English 1st Paper",
+        slug: 'english-1',
+        group: 'regular'
+    },
+    {
+        id: 4,
+        name: "English 2nd Paper",
+        slug: 'english-2',
+        group: 'regular'
+    },
+    {
+        id: 5,
         name: "Physics 1st Paper",
         slug: 'physics-1',
         group: 'science'
     },
     {
-        id: 4,
+        id: 6,
         name: "Physics 2nd Paper",
         slug: 'physics-2',
+        group: 'science'
+    },
+    {
+        id: 7,
+        name: "Chemistry 1st Paper",
+        slug: 'chemistry-1',
+        group: 'science'
+    },
+    {
+        id: 8,
+        name: "Chemistry 2nd Paper",
+        slug: 'chemistry-2',
+        group: 'science'
+    },
+    {
+        id: 9,
+        name: "Biology 1st Paper",
+        slug: 'biology-1',
+        group: 'science'
+    },
+    {
+        id: 10,
+        name: "Biology 2nd Paper",
+        slug: 'biology-2',
+        group: 'science'
+    },
+    {
+        id: 11,
+        name: "Higher-Maths 1st Paper",
+        slug: 'higher-maths-1',
+        group: 'science'
+    },
+    {
+        id: 12,
+        name: "Higher-Maths 2nd Paper",
+        slug: 'higher-maths-2',
         group: 'science'
     },
 ]
@@ -132,10 +166,10 @@ const toggleCq = (index: number, chapter: Chapter) => {
             </el-menu>
         </el-col>
         <el-col :span="24" :md="17" :lg="18" :xl="20" class="pt-5 md:pt-0">
-            <h3 class="px-1 md:px-3 md:py-3 text-3xl">{{ activeSubject }}</h3>
+            <h3 class="px-1 py-8 md:px-3 md:py-5 text-3xl">{{ activeSubject }}</h3>
             <el-scrollbar>
                 <el-table :data="tableData">
-                    <el-table-column prop="number" label="Chapter #" />
+                    <el-table-column prop="number" label="Chapter" />
                     <el-table-column prop="name" label="Name" />
                     <el-table-column prop="progress" label="Completion">
                         <template #default="scope">
