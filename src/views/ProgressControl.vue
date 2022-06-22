@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import { onMounted, ref, type Ref } from 'vue'
 import type { Subject, Chapter } from '@/interfaces';
 
 
-const activeSubject = ref('Bangla 1st Paper')
+const activeSubject: Ref<string> = ref("")
+const tableData: Ref<Chapter[]> = ref([]);
 const subjectList: Subject[] = [
     {
         id: 1,
@@ -79,11 +79,13 @@ const subjectList: Subject[] = [
         group: 'science'
     },
 ]
-const tableData: Chapter[] = [
+
+const chapterData: Chapter[] = [
     {
         id: 1,
         number: 1,
         name: "My Chapter",
+        subject_id: 1,
         progress: 0,
         cq: false,
         mcq: true
@@ -92,6 +94,7 @@ const tableData: Chapter[] = [
         id: 2,
         number: 2,
         name: "My Chapter #2",
+        subject_id: 3,
         progress: 25,
         mcq: false,
         cq: true
@@ -100,6 +103,7 @@ const tableData: Chapter[] = [
         id: 3,
         number: 3,
         name: "My Chapter #3",
+        subject_id: 1,
         progress: 85,
         cq: true,
         mcq: true
@@ -107,26 +111,41 @@ const tableData: Chapter[] = [
 ]
 
 
+function updateTableData(subject_id: number) {
+    const subjectChapters: Chapter[] = [];
+    chapterData.forEach((chapter) => {
+        if (chapter.subject_id == subject_id) {
+            subjectChapters.push(chapter);
+            // console.log(chapter)
+        }
+    });
+    tableData.value = subjectChapters
+}
 
 
 const handleSelect = (key: string, keyPath: string[]) => {
-    console.log(keyPath)
+    // console.log(keyPath)
     subjectList.forEach((subject) => {
         if (subject.slug == keyPath[1]) {
             activeSubject.value = subject.name
+            updateTableData(subject.id)
         }
     })
 }
 
 const toggleMcq = (index: number, chapter: Chapter) => {
-    console.log(index, chapter)
+    // console.log(index, chapter)
     chapter.mcq = !chapter.mcq
 }
 
 const toggleCq = (index: number, chapter: Chapter) => {
-    console.log(index, chapter)
+    // console.log(index, chapter)
     chapter.cq = !chapter.cq
 }
+
+onMounted(() => {
+    handleSelect('0', ['0', 'bangla-1'])
+})
 </script>
 
 

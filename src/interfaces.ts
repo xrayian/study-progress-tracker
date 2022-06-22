@@ -2,6 +2,7 @@ export interface Chapter {
   id: number;
   number: number;
   name: string;
+  subject_id: number;
   progress: number;
   cq: boolean;
   mcq: boolean;
