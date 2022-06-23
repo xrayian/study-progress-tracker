@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-
+const handleSubmit = (e: Event) => {
+    console.log(e)
+}
 </script>
 
 <template>
@@ -14,8 +16,7 @@
                     </a>
                 </p>
             </div>
-            <form class="mt-8 space-y-6" action="#" method="POST">
-                <input type="hidden" name="remember" value="true" />
+            <form class="mt-8 space-y-6" @submit.prevent="handleSubmit">
                 <div class="rounded-md shadow-sm -space-y-px">
                     <div>
                         <label for="email-address" class="sr-only">Email address</label>

@@ -5,17 +5,16 @@ import FooterMenu from './components/FooterMenu.vue';
 </script>
 
 <template>
-  <el-container class="flex flex-col h-screen">
-    <el-header>
-      <nav-menu />
-    </el-header>
-    <el-main class="flex-grow">
-      <RouterView />
-    </el-main>
-    <el-footer>
-      <footer-menu />
-    </el-footer>
-  </el-container>
+  <nav-menu>
+    <template #content>
+      <router-view />
+    </template>
+    <template #footer>
+      <el-footer>
+        <footer-menu />
+      </el-footer>
+    </template>
+  </nav-menu>
 </template>
 
 <style>

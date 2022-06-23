@@ -1,16 +1,63 @@
 <script setup lang="ts">
-// const handleSelect = (key: string, keyPath: string[]) => {
-//     console.log(key, keyPath)
-// }
+
 </script>
 
+
+
 <template>
-    <el-menu mode="horizontal" :ellipsis="false" router>
-        <p class="my-4 ml-2">Amar Progress</p>
-        <div class="flex-grow"></div>
-        <el-menu-item index="0" :route="{ name: 'home' }"> Home </el-menu-item>
-        <el-menu-item index="1" :route="{ name: 'progress-control' }"> Progress </el-menu-item>
-        <el-menu-item index="2" :route="{ name: 'login' }"> Login </el-menu-item>
-        <el-menu-item index="3" :route="{ name: 'about' }"> About </el-menu-item>
-    </el-menu>
+    <div class="drawer">
+        <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
+        <div class="drawer-content flex flex-col">
+            <!-- Navbar -->
+            <div class="w-full navbar bg-base-300">
+                <div class="flex-none lg:hidden">
+                    <label for="my-drawer-3" class="btn btn-square btn-ghost">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            class="inline-block w-6 h-6 stroke-current">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="flex-1 px-2 mx-2">
+                    <router-link class="btn btn-ghost normal-case text-xl" :to="{ name: 'home' }">Amar Progress
+                    </router-link>
+                </div>
+                <div class="flex-none hidden lg:block">
+                    <ul class="menu menu-horizontal">
+                        <!-- Navbar menu content here -->
+                        <li>
+                            <router-link :to="{ name: 'login' }">Login</router-link>
+                        </li>
+                        <li>
+                            <router-link :to="{ name: 'progress-control' }">Progress</router-link>
+                        </li>
+                        <li>
+                            <router-link :to="{ name: 'about' }">About</router-link>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <slot name='content'></slot>
+            <slot name='footer'></slot>
+        </div>
+        <div class="drawer-side">
+            <label for="my-drawer-3" class="drawer-overlay"></label>
+            <ul class="menu p-4 overflow-y-auto w-80 bg-base-100">
+                <!-- Sidebar content here -->
+                <li>
+                    <router-link :to="{ name: 'login' }">Login</router-link>
+                </li>
+                <li>
+                    <router-link :to="{ name: 'progress-control' }">Progress</router-link>
+                </li>
+                <li>
+                    <router-link :to="{ name: 'about' }">About</router-link>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+
 </template>
