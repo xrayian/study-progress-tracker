@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import { auth, provider } from '@/FirebaseInit';
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth } from '@/FirebaseInit';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { ref } from 'vue';
-import { RouterLink } from 'vue-router';
 
 
 const email = ref('');
@@ -10,35 +9,14 @@ const password = ref('');
 const errorMessage = ref('');
 
 const handleSubmit = () => {
-    signInWithEmailAndPassword(auth, email.value, password.value)
+    createUserWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
-            // Signed in 
             const user = userCredential.user;
             console.log(user)
-            // ...
         })
         .catch((error) => {
             errorMessage.value = error.message;
-        });
-}
-
-const googleSignIn = () => {
-    signInWithPopup(auth, provider)
-        .then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential?.accessToken;
-            const user = result.user;
-            console.log(user);
-            console.log(token);
-        }).catch((error) => {
-            errorMessage.value = error.message;
-            console.warn(error);
-            // // The email of the user's account used.
-            // const email = error.customData.email;
-            // // The AuthCredential type that was used.
-            // const credential = GoogleAuthProvider.credentialFromError(error);
-            // // ...
+            // ..
         });
 }
 
@@ -55,12 +33,12 @@ const dismissWarning = () => {
         <div class="max-w-md w-full space-y-8">
             <div>
                 <img class="mx-auto h-20 w-auto" src="@/assets/icon.png" alt="Workflow" />
-                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign up for an account</h2>
                 <p class="mt-2 text-center text-sm text-gray-600">
                     Or
-                    <router-link :to="{ name: 'sign-up' }" class="font-medium text-indigo-600 hover:text-indigo-500">
-                        sign
-                        up for an account
+                    <router-link :to="{ name: 'login' }" class="font-medium text-indigo-600 hover:text-indigo-500">sign
+                        in
+                        to an existing account
                     </router-link>
                 </p>
             </div>
@@ -99,23 +77,12 @@ const dismissWarning = () => {
                     </div>
                 </div>
 
-                <div class="flex items-end justify-between">
-                    <div class="text-sm">
-                        <router-link :to="{ name: 'forgot-password' }"
-                            class="font-medium text-indigo-600 hover:text-indigo-500"> Forgot your password?
-                        </router-link>
-                    </div>
-                </div>
-
                 <div>
                     <button type="submit"
                         class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Sign in
+                        Sign up
                     </button>
-                    <button @click="googleSignIn"
-                        class="mt-2 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md bg-gray-700 text-white  hover:text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Continue with google
-                    </button>
+
                 </div>
             </form>
         </div>
