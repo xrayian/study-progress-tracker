@@ -29,17 +29,20 @@ const currentRoute = computed(() => {
                     <ul class="menu menu-horizontal">
                         <!-- Navbar menu content here -->
                         <li>
-                            <router-link :class="currentRoute == 'login' ? 'active' : null" :to="{ name: 'login' }">
+                            <router-link class="rounded-md" :class="currentRoute == 'login' ? 'active' : null"
+                                :to="{ name: 'login' }">
                                 Login
                             </router-link>
                         </li>
                         <li>
-                            <router-link :class="currentRoute == 'progress-control' ? 'active' : null"
+                            <router-link class="rounded-md"
+                                :class="currentRoute == 'progress-control' ? 'active' : null"
                                 :to="{ name: 'progress-control' }">
                                 Progress</router-link>
                         </li>
                         <li>
-                            <router-link :class="currentRoute == 'about' ? 'active' : null" :to="{ name: 'about' }">
+                            <router-link class="rounded-md" :class="currentRoute == 'about' ? 'active' : null"
+                                :to="{ name: 'about' }">
                                 About
                             </router-link>
                         </li>
