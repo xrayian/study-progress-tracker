@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
+const currentRoute = computed(() => {
+    return useRoute().name
+})
 </script>
-
-
-
 <template>
     <div class="drawer">
         <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
@@ -27,32 +29,48 @@
                     <ul class="menu menu-horizontal">
                         <!-- Navbar menu content here -->
                         <li>
-                            <router-link :to="{ name: 'login' }">Login</router-link>
+                            <router-link :class="currentRoute == 'login' ? 'active' : null" :to="{ name: 'login' }">
+                                Login
+                            </router-link>
                         </li>
                         <li>
-                            <router-link :to="{ name: 'progress-control' }">Progress</router-link>
+                            <router-link :class="currentRoute == 'progress-control' ? 'active' : null"
+                                :to="{ name: 'progress-control' }">
+                                Progress</router-link>
                         </li>
                         <li>
-                            <router-link :to="{ name: 'about' }">About</router-link>
+                            <router-link :class="currentRoute == 'about' ? 'active' : null" :to="{ name: 'about' }">
+                                About
+                            </router-link>
                         </li>
                     </ul>
                 </div>
             </div>
-            <slot name='content'></slot>
+            <div class="grow">
+                <slot name='content'></slot>
+            </div>
+
             <slot name='footer'></slot>
         </div>
         <div class="drawer-side">
             <label for="my-drawer-3" class="drawer-overlay"></label>
             <ul class="menu p-4 overflow-y-auto w-80 bg-base-100">
                 <!-- Sidebar content here -->
+                <p class="my-4 mx-1">
+                    <router-link :to="{ name: 'home' }"> Amar Progress</router-link>
+                </p>
                 <li>
-                    <router-link :to="{ name: 'login' }">Login</router-link>
+                    <router-link :class="currentRoute == 'login' ? 'active' : null" :to="{ name: 'login' }">Login
+                    </router-link>
                 </li>
                 <li>
-                    <router-link :to="{ name: 'progress-control' }">Progress</router-link>
+                    <router-link :class="currentRoute == 'progress-control' ? 'active' : null"
+                        :to="{ name: 'progress-control' }">
+                        Progress</router-link>
                 </li>
                 <li>
-                    <router-link :to="{ name: 'about' }">About</router-link>
+                    <router-link :class="currentRoute == 'about' ? 'active' : null" :to="{ name: 'about' }">About
+                    </router-link>
                 </li>
             </ul>
 

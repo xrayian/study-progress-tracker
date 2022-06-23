@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container mx-auto my-5">
         <el-main>
             <h1 class="text-6xl mb-5">About Us</h1>
             <p class="text-sm mb-10"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis quae

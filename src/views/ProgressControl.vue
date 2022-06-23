@@ -150,106 +150,79 @@ onMounted(() => {
 
 
 <template>
-    <el-row>
-        <el-col :span="24" :md="7" :lg="6" :xl="4">
-            <el-menu :default-openeds="['1', '2']" default-active="bangla-1" @select="handleSelect">
-                <el-sub-menu index="1">
-                    <template #title>
-                        <el-icon>
-                            <Management />
-                        </el-icon>Basic
-                    </template>
-                    <el-menu-item index="bangla-1">Bengali 1st Paper</el-menu-item>
-                    <el-menu-item index="bangla-2">Bengali 2nd Paper</el-menu-item>
-                    <el-menu-item index="english-1">English 1st Paper</el-menu-item>
-                    <el-menu-item index="english-2">English 2nd Paper</el-menu-item>
-                </el-sub-menu>
-                <el-sub-menu index="2">
-                    <template #title>
-                        <el-icon>
-                            <Magnet />
-                        </el-icon>
-                        Science
-                    </template>
-                    <el-menu-item index="physics-1">Physics 1st Paper</el-menu-item>
-                    <el-menu-item index="physics-2">Physics 2nd Paper</el-menu-item>
-                    <el-menu-item index="chemistry-1">Chemistry 1st Paper</el-menu-item>
-                    <el-menu-item index="chemistry-2">Chemistry 2nd Paper</el-menu-item>
-                    <el-menu-item index="higher-maths-1">Higher-Maths 1st Paper</el-menu-item>
-                    <el-menu-item index="higher-maths-2">Higher-Maths 2nd Paper</el-menu-item>
-                    <el-menu-item-group title="Fourth Subjects">
-                        <el-menu-item index="biology-1">Biology 1st Paper</el-menu-item>
-                        <el-menu-item index="biology-2">Biology 2nd Paper</el-menu-item>
-                    </el-menu-item-group>
-                </el-sub-menu>
-            </el-menu>
-        </el-col>
-        <el-col :span="24" :md="17" :lg="18" :xl="20" class="pt-5 md:pt-0">
-            <h3 class="px-1 py-8 md:px-3 md:py-5 text-3xl">{{ activeSubject }}</h3>
-            <el-scrollbar>
-                <el-table :data="tableData">
-                    <el-table-column prop="number" label="Chapter" />
-                    <el-table-column prop="name" label="Name" />
-                    <el-table-column prop="progress" label="Completion">
-                        <template #default="scope">
-                            <el-progress :text-inside="true" :stroke-width="16" :percentage="scope.row.progress" />
+    <div class="m-3">
+        <el-row :gutter="20">
+            <el-col :span="24" :md="7" :lg="6" :xl="4">
+                <el-menu class="rounded-xl py-2" :default-openeds="['1', '2']" default-active="bangla-1"
+                    @select="handleSelect">
+                    <el-sub-menu index="1">
+                        <template #title>
+                            <el-icon>
+                                <Management />
+                            </el-icon>Basic
                         </template>
-                    </el-table-column>
-                    <el-table-column label="Progress">
-                        <el-table-column prop="mcq" label="MCQ">
+                        <el-menu-item index="bangla-1">Bengali 1st Paper</el-menu-item>
+                        <el-menu-item index="bangla-2">Bengali 2nd Paper</el-menu-item>
+                        <el-menu-item index="english-1">English 1st Paper</el-menu-item>
+                        <el-menu-item index="english-2">English 2nd Paper</el-menu-item>
+                    </el-sub-menu>
+                    <el-sub-menu index="2">
+                        <template #title>
+                            <el-icon>
+                                <Magnet />
+                            </el-icon>
+                            Science
+                        </template>
+                        <el-menu-item index="physics-1">Physics 1st Paper</el-menu-item>
+                        <el-menu-item index="physics-2">Physics 2nd Paper</el-menu-item>
+                        <el-menu-item index="chemistry-1">Chemistry 1st Paper</el-menu-item>
+                        <el-menu-item index="chemistry-2">Chemistry 2nd Paper</el-menu-item>
+                        <el-menu-item index="higher-maths-1">Higher-Maths 1st Paper</el-menu-item>
+                        <el-menu-item index="higher-maths-2">Higher-Maths 2nd Paper</el-menu-item>
+                        <el-menu-item-group title="Fourth Subjects">
+                            <el-menu-item index="biology-1">Biology 1st Paper</el-menu-item>
+                            <el-menu-item index="biology-2">Biology 2nd Paper</el-menu-item>
+                        </el-menu-item-group>
+                    </el-sub-menu>
+                </el-menu>
+            </el-col>
+            <el-col :span="24" :md="17" :lg="18" :xl="20" class="pt-1 md:pt-0">
+                <h3 class="pt-4 pb-3 md:py-5 text-3xl">{{ activeSubject }}</h3>
+                <el-scrollbar>
+                    <el-table class="rounded-xl" :data="tableData">
+                        <el-table-column prop="number" label="Chapter" />
+                        <el-table-column prop="name" label="Name" />
+                        <el-table-column prop="progress" label="Completion">
                             <template #default="scope">
-                                <el-button size="small" :type="scope.row.mcq ? 'success' : 'default'"
-                                    @click="toggleMcq(scope.$index, scope.row)">
-                                    <el-icon :size="18">
-                                        <Check />
-                                    </el-icon>
-                                </el-button>
+                                <el-progress :text-inside="true" :stroke-width="16" :percentage="scope.row.progress" />
                             </template>
                         </el-table-column>
-                        <el-table-column prop="cq" label="CQ">
-                            <template #default="scope">
-                                <el-button size="small" :type="scope.row.cq ? 'success' : 'default'"
-                                    @click="toggleCq(scope.$index, scope.row)">
-                                    <el-icon :size="18">
-                                        <Check />
-                                    </el-icon>
-                                </el-button>
-                            </template>
+                        <el-table-column label="Progress">
+                            <el-table-column prop="mcq" label="MCQ">
+                                <template #default="scope">
+                                    <el-button size="small" :type="scope.row.mcq ? 'success' : 'default'"
+                                        @click="toggleMcq(scope.$index, scope.row)">
+                                        <el-icon :size="18">
+                                            <Check />
+                                        </el-icon>
+                                    </el-button>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="cq" label="CQ">
+                                <template #default="scope">
+                                    <el-button size="small" :type="scope.row.cq ? 'success' : 'default'"
+                                        @click="toggleCq(scope.$index, scope.row)">
+                                        <el-icon :size="18">
+                                            <Check />
+                                        </el-icon>
+                                    </el-button>
+                                </template>
+                            </el-table-column>
                         </el-table-column>
-                    </el-table-column>
-                </el-table>
-            </el-scrollbar>
-        </el-col>
-    </el-row>
+                    </el-table>
+                </el-scrollbar>
+            </el-col>
+        </el-row>
+    </div>
+
 </template>
-
-
-<style scoped>
-* {
-    border-radius: 10px !important;
-}
-
-/* .layout-container-demo .el-header {
-    position: relative;
-    background-color: var(--el-color-primary-light-7);
-    color: var(--el-text-color-primary);
-} */
-
-.el-aside {
-    color: var(--el-text-color-primary);
-    /* background: var(--el-color-primary-light-8); */
-}
-
-.el-menu {
-    border-right: none;
-}
-
-
-.toolbar {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    right: 20px;
-}
-</style>
