@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { auth, provider } from '@/FirebaseInit';
+import { auth } from '@/FirebaseInit';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
