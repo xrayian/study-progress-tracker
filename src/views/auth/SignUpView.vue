@@ -1,18 +1,30 @@
 <script lang="ts" setup>
-import { auth } from '@/FirebaseInit';
+import { auth, db } from '@/FirebaseInit';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, addDoc } from "firebase/firestore";
 import { ref } from 'vue';
 
-
+const name = ref('');
 const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
+
+async function createUserData() {
+    try {
+        await addDoc(collection(db, "users"), {
+            name: name.value,
+            email: email.value
+        });
+    } catch (e) {
+        errorMessage.value = "Something went wrong, please try again";
+    }
+}
 
 const handleSubmit = () => {
     createUserWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
             const user = userCredential.user;
-            console.log(user)
+            createUserData()
         })
         .catch((error) => {
             errorMessage.value = error.message;
@@ -62,12 +74,20 @@ const dismissWarning = () => {
             <form class="mt-8 space-y-6" @submit.prevent="handleSubmit">
                 <div class="rounded-md shadow-sm -space-y-px">
                     <div>
+                        <label for="email-address" class="sr-only">Name</label>
+                        <input id="email-address" v-model="name" name="name" type="name" autocomplete="name"
+                            required="true"
+                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                            placeholder="Name" />
+                    </div>
+                    <div>
                         <label for="email-address" class="sr-only">Email address</label>
                         <input id="email-address" v-model="email" name="email" type="email" autocomplete="email"
                             required="true"
-                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                             placeholder="Email address" />
                     </div>
+
                     <div>
                         <label for="password" class="sr-only">Password</label>
                         <input id="password" v-model="password" name="password" type="password"

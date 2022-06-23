@@ -1,6 +1,16 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { auth } from '@/FirebaseInit';
+import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+
+const user = auth.currentUser;
+const displayName = ref('');
+const photoURL = ref('');
+
+if (user !== null) {
+    displayName.value = user.displayName ?? 'User';
+    photoURL.value = user.photoURL ?? 'alt';
+}
 
 const currentRoute = computed(() => {
     return useRoute().name
@@ -28,13 +38,24 @@ const currentRoute = computed(() => {
                 <div class="flex-none hidden lg:block">
                     <ul class="menu menu-horizontal">
                         <!-- Navbar menu content here -->
-                        <li>
+                        <li v-if="user == null">
                             <router-link class="rounded-md" :class="currentRoute == 'login' ? 'active' : null"
                                 :to="{ name: 'login' }">
                                 Login
                             </router-link>
                         </li>
-                        <li>
+                        <li v-else>
+                            <router-link class="rounded-md" :class="currentRoute == 'login' ? 'active' : null"
+                                :to="{ name: 'login' }">
+                                <div class="avatar">
+                                    <div class="w-8 mask mask-squircle">
+                                        <img :src="photoURL" />
+                                    </div>
+                                </div>
+                                {{ displayName }}
+                            </router-link>
+                        </li>
+                        <li v-if="user != null">
                             <router-link class="rounded-md"
                                 :class="currentRoute == 'progress-control' ? 'active' : null"
                                 :to="{ name: 'progress-control' }">
@@ -62,11 +83,22 @@ const currentRoute = computed(() => {
                 <p class="my-4 mx-1">
                     <router-link :to="{ name: 'home' }"> Amar Progress</router-link>
                 </p>
-                <li>
+                <li v-if="user == null">
                     <router-link :class="currentRoute == 'login' ? 'active' : null" :to="{ name: 'login' }">Login
                     </router-link>
                 </li>
-                <li>
+                <li v-else>
+                    <router-link class="rounded-md" :class="currentRoute == 'login' ? 'active' : null"
+                        :to="{ name: 'login' }">
+                        <div class="avatar">
+                            <div class="w-6 mask mask-squircle">
+                                <img :src="photoURL" />
+                            </div>
+                        </div>
+                        {{ displayName }}
+                    </router-link>
+                </li>
+                <li v-if="user != null">
                     <router-link :class="currentRoute == 'progress-control' ? 'active' : null"
                         :to="{ name: 'progress-control' }">
                         Progress</router-link>

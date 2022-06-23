@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { auth, provider } from '@/FirebaseInit';
+import router from '@/router';
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
-
 
 const email = ref('');
 const password = ref('');
@@ -14,7 +14,9 @@ const handleSubmit = () => {
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            console.log(user)
+            if (auth.currentUser != null) {
+                router.push({ name: 'home' });
+            }
             // ...
         })
         .catch((error) => {
@@ -29,8 +31,9 @@ const googleSignIn = () => {
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential?.accessToken;
             const user = result.user;
-            console.log(user);
-            console.log(token);
+            if (auth.currentUser != null) {
+                router.push({ name: 'home' });
+            }
         }).catch((error) => {
             errorMessage.value = error.message;
             console.warn(error);

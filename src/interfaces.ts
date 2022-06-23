@@ -8,6 +8,13 @@ export interface Chapter {
   mcq: boolean;
 }
 
+export interface User {
+  id: string;
+  authToken: string;
+  name: string;
+  email: string;
+}
+
 export interface Subject {
   id: number;
   name: string;
