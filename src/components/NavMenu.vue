@@ -1,20 +1,18 @@
 <script setup lang="ts">
-import { auth } from '@/FirebaseInit';
-import { computed, ref, watch } from 'vue';
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
-const user = auth.currentUser;
-const displayName = ref('');
-const photoURL = ref('');
+const store = useStore();
 
-if (user !== null) {
-    displayName.value = user.displayName ?? 'User';
-    photoURL.value = user.photoURL ?? 'alt';
-}
-
+const user = computed(() => {
+    console.log(store.state.user);
+    return store.state.user;
+});
 const currentRoute = computed(() => {
     return useRoute().name
 })
+
 </script>
 <template>
     <div class="drawer">
@@ -38,6 +36,19 @@ const currentRoute = computed(() => {
                 <div class="flex-none hidden lg:block">
                     <ul class="menu menu-horizontal">
                         <!-- Navbar menu content here -->
+                        <li>
+                            <router-link class="rounded-md" :class="currentRoute == 'about' ? 'active' : null"
+                                :to="{ name: 'about' }">
+                                About
+                            </router-link>
+                        </li>
+                        <li v-if="user != null">
+                            <router-link class="rounded-md"
+                                :class="currentRoute == 'progress-control' ? 'active' : null"
+                                :to="{ name: 'progress-control' }">
+                                Progress</router-link>
+                        </li>
+
                         <li v-if="user == null">
                             <router-link class="rounded-md" :class="currentRoute == 'login' ? 'active' : null"
                                 :to="{ name: 'login' }">
@@ -49,24 +60,13 @@ const currentRoute = computed(() => {
                                 :to="{ name: 'login' }">
                                 <div class="avatar">
                                     <div class="w-8 mask mask-squircle">
-                                        <img :src="photoURL" />
+                                        <img :src="user.photoURL" />
                                     </div>
                                 </div>
-                                {{ displayName }}
+                                {{ user.displayName }}
                             </router-link>
                         </li>
-                        <li v-if="user != null">
-                            <router-link class="rounded-md"
-                                :class="currentRoute == 'progress-control' ? 'active' : null"
-                                :to="{ name: 'progress-control' }">
-                                Progress</router-link>
-                        </li>
-                        <li>
-                            <router-link class="rounded-md" :class="currentRoute == 'about' ? 'active' : null"
-                                :to="{ name: 'about' }">
-                                About
-                            </router-link>
-                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -83,6 +83,15 @@ const currentRoute = computed(() => {
                 <p class="my-4 mx-1">
                     <router-link :to="{ name: 'home' }"> Amar Progress</router-link>
                 </p>
+                <li>
+                    <router-link :class="currentRoute == 'about' ? 'active' : null" :to="{ name: 'about' }">About
+                    </router-link>
+                </li>
+                <li v-if="user != null">
+                    <router-link :class="currentRoute == 'progress-control' ? 'active' : null"
+                        :to="{ name: 'progress-control' }">
+                        Progress</router-link>
+                </li>
                 <li v-if="user == null">
                     <router-link :class="currentRoute == 'login' ? 'active' : null" :to="{ name: 'login' }">Login
                     </router-link>
@@ -92,21 +101,13 @@ const currentRoute = computed(() => {
                         :to="{ name: 'login' }">
                         <div class="avatar">
                             <div class="w-6 mask mask-squircle">
-                                <img :src="photoURL" />
+                                <img :src="user.photoURL" />
                             </div>
                         </div>
-                        {{ displayName }}
+                        {{ user.displayName }}
                     </router-link>
                 </li>
-                <li v-if="user != null">
-                    <router-link :class="currentRoute == 'progress-control' ? 'active' : null"
-                        :to="{ name: 'progress-control' }">
-                        Progress</router-link>
-                </li>
-                <li>
-                    <router-link :class="currentRoute == 'about' ? 'active' : null" :to="{ name: 'about' }">About
-                    </router-link>
-                </li>
+
             </ul>
 
         </div>

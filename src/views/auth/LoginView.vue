@@ -1,48 +1,30 @@
 <script lang="ts" setup>
-import { auth, provider } from '@/FirebaseInit';
 import router from '@/router';
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
+import { useStore } from 'vuex';
 
 const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
+const store = useStore();
 
-const handleSubmit = () => {
-    signInWithEmailAndPassword(auth, email.value, password.value)
-        .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            if (auth.currentUser != null) {
-                router.push({ name: 'home' });
-            }
-            // ...
-        })
-        .catch((error) => {
-            errorMessage.value = error.message;
-        });
+const handleSubmit = async () => {
+    try {
+        await store.dispatch('login', { email: email.value, password: password.value })
+        router.push({ name: 'home' });
+    } catch (error) {
+        if (error instanceof Error) errorMessage.value = error.message
+    }
 }
 
-const googleSignIn = () => {
-    signInWithPopup(auth, provider)
-        .then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential?.accessToken;
-            const user = result.user;
-            if (auth.currentUser != null) {
-                router.push({ name: 'home' });
-            }
-        }).catch((error) => {
-            errorMessage.value = error.message;
-            console.warn(error);
-            // // The email of the user's account used.
-            // const email = error.customData.email;
-            // // The AuthCredential type that was used.
-            // const credential = GoogleAuthProvider.credentialFromError(error);
-            // // ...
-        });
+const googleSignIn = async () => {
+    try {
+        await store.dispatch('googleSignIn')
+        router.push({ name: 'home' });
+    } catch (error) {
+        if (error instanceof Error) errorMessage.value = error.message
+    }
 }
 
 
