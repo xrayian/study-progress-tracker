@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import router from '@/router';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
@@ -15,7 +16,7 @@ const currentRoute = computed(() => {
     return useRoute().name
 })
 
-const handleSignOut = async () => { await store.dispatch('logout'); }
+const handleSignOut = async () => { await store.dispatch('logout'); router.push('/') }
 
 </script>
 <template>
@@ -48,7 +49,7 @@ const handleSignOut = async () => { await store.dispatch('logout'); }
             <router-link :to="{ name: 'home' }" class="btn btn-ghost normal-case text-xl">Amar Progress</router-link>
         </div>
         <div v-if="authReady" class="navbar-end">
-            <div class="hidden lg:flex">
+            <div class="hidden lg:flex pr-3">
                 <ul class="menu menu-horizontal p-0">
                     <li>
                         <router-link class="rounded-md mx-[2px]" :class="currentRoute == 'about' ? 'active' : null"
@@ -66,16 +67,17 @@ const handleSignOut = async () => { await store.dispatch('logout'); }
             </div>
             <div v-if="user" class="dropdown dropdown-end">
                 <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-                    <div class="w-10 rounded-full">
+                    <div v-if="user.photoURL" class="w-10 rounded-full">
                         <img :src="user.photoURL" />
                     </div>
+                    <el-icon :size="30" v-else>
+                        <Avatar />
+                    </el-icon>
                 </label>
                 <ul tabindex="0"
                     class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-                    <li>
-                        <p class="justify-between">
-                            {{ user.displayName }}
-                        </p>
+                    <li class="menu-title">
+                        <span>{{ user.displayName }}</span>
                     </li>
                     <li><a @click="handleSignOut">Logout</a></li>
                 </ul>

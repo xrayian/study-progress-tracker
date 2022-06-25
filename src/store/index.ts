@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { createStore } from "vuex";
 
@@ -23,13 +24,16 @@ const store = createStore({
     },
   },
   actions: {
-    async signup(context, { email, password }) {
+    async signup(context, { displayName, email, password }) {
       const userData = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
       if (userData) {
+        await updateProfile(auth.currentUser!, {
+          displayName: displayName,
+        });
         context.commit("updateUser", userData.user);
       } else {
         throw new Error("sign up failed");

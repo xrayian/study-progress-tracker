@@ -12,7 +12,7 @@ const store = useStore();
 
 const handleSubmit = async () => {
     try {
-        await store.dispatch('signup', { email: email.value, password: password.value })
+        await store.dispatch('signup', { displayName: name.value, email: email.value, password: password.value })
         router.push({ name: 'home' });
     } catch (e) {
         errorMessage.value = "Something went wrong";
