@@ -6,15 +6,13 @@ import FooterMenu from './components/FooterMenu.vue';
 
 <template>
   <nav-menu>
-    <template #content>
-      <router-view />
-    </template>
-    <template #footer>
-      <el-footer>
-        <footer-menu />
-      </el-footer>
-    </template>
   </nav-menu>
+  <div class="grow">
+    <router-view />
+  </div>
+  <footer>
+    <footer-menu />
+  </footer>
 </template>
 
 <style>

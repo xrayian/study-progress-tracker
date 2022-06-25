@@ -19,6 +19,8 @@ const router = createRouter({
       name: "progress-control",
       component: () => import("../views/ProgressControl.vue"),
     },
+
+    //auth
     {
       path: "/login",
       name: "login",
