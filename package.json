@@ -16,6 +16,7 @@
     "firebase": "^9.8.3",
     "vue": "^3.2.36",
     "vue-router": "^4.0.15",
+    "vue3-spinners": "^1.2.1",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

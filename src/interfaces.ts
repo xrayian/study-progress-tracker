@@ -1,8 +1,8 @@
 export interface Chapter {
-  id: number;
+  id: string;
   number: number;
   name: string;
-  subject_id: number;
+  subject_id: string;
   // progress: number;
   cq: boolean;
   mcq: boolean;
@@ -16,7 +16,7 @@ export interface User {
 }
 
 export interface Subject {
-  id: number;
+  id: string;
   name: string;
   slug: string;
   group: string;
