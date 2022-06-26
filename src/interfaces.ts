@@ -1,6 +1,6 @@
 export interface Chapter {
   id: string;
-  number: number;
+  number: string;
   name: string;
   subject_id: string;
   // progress: number;

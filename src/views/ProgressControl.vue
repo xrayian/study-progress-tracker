@@ -3,7 +3,7 @@ import { onMounted, ref, type Ref } from 'vue'
 import type { Subject, Chapter } from '@/interfaces';
 import { useStore } from 'vuex';
 import router from '@/router';
-import { collection, getDocs, getDoc, setDoc, doc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, setDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/FirebaseInit'
 import { VueSpinner } from 'vue3-spinners';
 
@@ -13,6 +13,7 @@ const tableData: Ref<Chapter[]> = ref([]);
 const subjectList: Ref<Subject[]> = ref([]);
 const chapterData: Ref<Chapter[]> = ref([]);
 const loadingComplete: Ref<boolean> = ref(false);
+const tableRefreshingComplete: Ref<boolean> = ref(false);
 
 const getSubjectData = async () => {
     const querySnapshot = await getDocs(collection(db, "subjects"));
@@ -37,37 +38,29 @@ const getChapterData = async (subjectId: string) => {
             cq: false,
             mcq: false,
             name: doc.data().name,
-            number: parseInt(doc.data().number),
+            number: doc.data().number,
             subject_id: subjectId,
         };
         newChapters.push(newChapter);
     });
     chapterData.value = newChapters;
     await getProgressData();
+    tableRefreshingComplete.value = true;
 }
 
 const getProgressData = async () => {
     const progressDoc = await getDoc(doc(db, `progress/${store.state.user.uid}`));
     if (progressDoc.exists()) {
-        console.log(progressDoc.data());
-        // chapterData.value.forEach((chapter) => {
-        //     console.log(progressDoc.data());
-        //     chapter.mcq = progressDoc.data().chapter.id.mcq ?? false;
-        //     chapter.cq = progressDoc.data().chapter.id.cq ?? false;
-        // })
+        chapterData.value.forEach((chapter) => {
+            try {
+                chapter.mcq = progressDoc.data()[chapter.id].mcq ?? false;
+                chapter.cq = progressDoc.data()[chapter.id].cq ?? false;
+            } catch (e) {
+                chapter.cq = false;
+                chapter.mcq = false;
+            }
+        })
     }
-
-    // querySnapshot.forEach((doc) => {
-    //     const newChapter: Chapter = {
-    //         id: doc.id,
-    //         cq: false,
-    //         mcq: false,
-    //         name: doc.data().name,
-    //         number: parseInt(doc.data().number),
-    //         subject_id: subjectId,
-    //     };
-    //     newChapters.push(newChapter);
-    // });
 }
 
 async function updateTableData(subject_id: string) {
@@ -86,31 +79,33 @@ const handleSelect = (key: string, keyPath: string[]) => {
     subjectList.value.forEach((subject) => {
         if (subject.slug == keyPath[1]) {
             activeSubject.value = subject.name
+            tableRefreshingComplete.value = false;
             updateTableData(subject.id)
         }
     })
 }
 
-const postChapterState = async (chapter: Chapter) => {
+const postChapterState = async (chapter: Chapter, updateFor: string, val: boolean) => {
     const docRef = doc(db, "progress", store.state.user.uid);
     const obj: any = {};
-    obj[`${chapter.id}`] = { mcq: chapter.mcq, cq: chapter.cq }
+    if (updateFor == "mcq") {
+        obj[`${chapter.id}`] = { mcq: val, cq: chapter.cq }
+    } else if (updateFor == "cq") {
+        obj[`${chapter.id}`] = { mcq: chapter.mcq, cq: val }
+    }
     try {
         await updateDoc(docRef, obj);
     } catch (e) {
         await setDoc(docRef, obj);
-        console.log('error!')
     }
 }
 
 const toggleMcq = (index: number, chapter: Chapter) => {
-    chapter.mcq = !chapter.mcq;
-    postChapterState(chapter);
+    postChapterState(chapter, 'mcq', !chapter.mcq).then(() => { chapter.mcq = !chapter.mcq });
 }
 
 const toggleCq = (index: number, chapter: Chapter) => {
-    chapter.cq = !chapter.cq;
-    postChapterState(chapter);
+    postChapterState(chapter, 'cq', !chapter.cq).then(() => { chapter.cq = !chapter.cq });
 }
 
 onMounted(async () => {
@@ -167,7 +162,7 @@ onMounted(async () => {
             <el-col :span="24" :md="17" :lg="18" :xl="20" class="pt-1 md:pt-0">
                 <h3 class="pt-4 pb-3 md:py-5 text-3xl">{{ activeSubject }}</h3>
                 <div class="overflow-x-auto">
-                    <template v-if="tableData.length">
+                    <template v-if="tableRefreshingComplete">
                         <el-table table-layout="auto" class="rounded-xl" :data="tableData">
                             <el-table-column prop="number" label="#" sort-by="number" />
                             <el-table-column prop="name" label="Name" />
