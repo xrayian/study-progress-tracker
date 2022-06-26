@@ -3,7 +3,7 @@ import { onMounted, ref, type Ref } from 'vue'
 import type { Subject, Chapter } from '@/interfaces';
 import { useStore } from 'vuex';
 import router from '@/router';
-import { collection, getDocs, getDoc, setDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, setDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/FirebaseInit'
 import { VueSpinner } from 'vue3-spinners';
 

@@ -5,14 +5,15 @@ import FooterMenu from './components/FooterMenu.vue';
 </script>
 
 <template>
-  <nav-menu>
-  </nav-menu>
-  <div class="grow">
-    <router-view />
-  </div>
-  <footer>
+  <div class="h-screen flex flex-col">
+    <nav-menu>
+    </nav-menu>
+    <div class="grow">
+      <router-view />
+    </div>
     <footer-menu />
-  </footer>
+  </div>
+
 </template>
 
 <style>
