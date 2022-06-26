@@ -24,11 +24,17 @@ const handleSignOut = async () => { await store.dispatch('logout'); router.push(
     <div class="navbar bg-base-100">
         <div class="navbar-start">
             <div class="dropdown">
-                <label tabindex="0" class="btn btn-ghost lg:hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                <label class="btn btn-ghost lg:hidden swap swap-rotate">
+                    <input type="checkbox" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="swap-off h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h8m-8 6h16" />
+                    </svg>
+                    <svg class="swap-on fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                        viewBox="0 0 512 512">
+                        <polygon
+                            points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
                     </svg>
                 </label>
                 <ul tabindex="0"
