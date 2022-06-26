@@ -2,9 +2,9 @@
 </script>
 
 <template>
-  <main class="container mx-auto lg:my-14">
-    <div class="container">
-      <h1 class="text-6xl mb-8">Welcome to Amar Progress!</h1>
+  <div class="container mx-auto lg:my-14">
+    <el-main>
+      <h1 class="text-4xl mb-8">Welcome to Amar Progress!</h1>
       <div class="alert alert-info shadow-lg mt-4 mb-6">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -19,6 +19,7 @@
         This is a progress tracking app for students.<br />
         Get started by making a new account!
       </p>
-    </div>
-  </main>
+    </el-main>
+
+  </div>
 </template>
