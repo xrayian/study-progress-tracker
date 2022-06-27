@@ -6,6 +6,7 @@ export interface Chapter {
   // progress: number;
   cq: boolean;
   mcq: boolean;
+  planned: boolean;
 }
 
 export interface User {

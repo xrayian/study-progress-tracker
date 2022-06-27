@@ -37,6 +37,7 @@ const getChapterData = async (subjectId: string) => {
             id: doc.id,
             cq: false,
             mcq: false,
+            planned: false,
             name: doc.data().name,
             number: doc.data().number,
             subject_id: subjectId,
@@ -58,6 +59,11 @@ const getProgressData = async () => {
             } catch (e) {
                 chapter.cq = false;
                 chapter.mcq = false;
+            }
+            try {
+                chapter.planned = progressDoc.data()[chapter.id].planned ?? false;
+            } catch (e) {
+                chapter.planned = false;
             }
         })
     }
@@ -89,9 +95,11 @@ const postChapterState = async (chapter: Chapter, updateFor: string, val: boolea
     const docRef = doc(db, "progress", store.state.user.uid);
     const obj: any = {};
     if (updateFor == "mcq") {
-        obj[`${chapter.id}`] = { mcq: val, cq: chapter.cq }
+        obj[`${chapter.id}`] = { mcq: val, cq: chapter.cq, planned: chapter.planned }
     } else if (updateFor == "cq") {
-        obj[`${chapter.id}`] = { mcq: chapter.mcq, cq: val }
+        obj[`${chapter.id}`] = { mcq: chapter.mcq, cq: val, planned: chapter.planned }
+    } else if (updateFor == "planned") {
+        obj[`${chapter.id}`] = { mcq: chapter.mcq, cq: chapter.cq, planned: val }
     }
     try {
         await updateDoc(docRef, obj);
@@ -106,6 +114,10 @@ const toggleMcq = (index: number, chapter: Chapter) => {
 
 const toggleCq = (index: number, chapter: Chapter) => {
     postChapterState(chapter, 'cq', !chapter.cq).then(() => { chapter.cq = !chapter.cq });
+}
+
+const togglePlanned = (index: number, chapter: Chapter) => {
+    postChapterState(chapter, 'planned', !chapter.planned).then(() => { chapter.planned = !chapter.planned });
 }
 
 onMounted(async () => {
@@ -167,6 +179,17 @@ onMounted(async () => {
                             <el-table-column prop="number" label="#" sort-by="number" />
                             <el-table-column prop="name" label="Name" />
                             <el-table-column label="Progress">
+                                <el-table-column prop="planned" label="Planned">
+                                    <template #default="scope">
+                                        <el-button size="small" :type="scope.row.planned ? 'warning' : 'default'"
+                                            @click="togglePlanned(scope.$index, scope.row)">
+                                            <el-icon :size="18">
+                                                <StarFilled v-if="scope.row.planned" />
+                                                <Star v-else />
+                                            </el-icon>
+                                        </el-button>
+                                    </template>
+                                </el-table-column>
                                 <el-table-column prop="mcq" label="MCQ">
                                     <template #default="scope">
                                         <el-button size="small" :type="scope.row.mcq ? 'success' : 'default'"
