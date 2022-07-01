@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import router from '@/router';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 const store = useStore();
-const dropdownState = ref(false);
 
 const user = computed(() => {
     return store.state.user;
@@ -38,12 +37,6 @@ const handleSignOut = async () => { await store.dispatch('logout'); router.push(
                 </label>
                 <ul tabindex="0"
                     class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                    <li>
-                        <router-link class="rounded-md" :class="currentRoute == 'about' ? 'active' : null"
-                            :to="{ name: 'about' }">
-                            About
-                        </router-link>
-                    </li>
                     <li v-if="user != null">
                         <router-link class="rounded-md" :class="currentRoute == 'dashboard' ? 'active' : null"
                             :to="{ name: 'dashboard' }">
@@ -54,7 +47,12 @@ const handleSignOut = async () => { await store.dispatch('logout'); router.push(
                             :to="{ name: 'progress-control' }">
                             Progress</router-link>
                     </li>
-
+                    <li>
+                        <router-link class="rounded-md" :class="currentRoute == 'about' ? 'active' : null"
+                            :to="{ name: 'about' }">
+                            About
+                        </router-link>
+                    </li>
                 </ul>
             </div>
             <router-link :to="{ name: 'home' }" class="btn btn-ghost normal-case text-xl">Amar Progress</router-link>
@@ -62,12 +60,6 @@ const handleSignOut = async () => { await store.dispatch('logout'); router.push(
         <div v-if="authReady" class="navbar-end">
             <div class="hidden lg:flex pr-3">
                 <ul class="menu menu-horizontal p-0">
-                    <li>
-                        <router-link class="rounded-md mx-[2px]" :class="currentRoute == 'about' ? 'active' : null"
-                            :to="{ name: 'about' }">
-                            About
-                        </router-link>
-                    </li>
                     <li v-if="user != null">
                         <router-link class="rounded-md" :class="currentRoute == 'dashboard' ? 'active' : null"
                             :to="{ name: 'dashboard' }">
@@ -79,7 +71,12 @@ const handleSignOut = async () => { await store.dispatch('logout'); router.push(
                             :to="{ name: 'progress-control' }">
                             Progress</router-link>
                     </li>
-
+                    <li>
+                        <router-link class="rounded-md mx-[2px]" :class="currentRoute == 'about' ? 'active' : null"
+                            :to="{ name: 'about' }">
+                            About
+                        </router-link>
+                    </li>
                 </ul>
             </div>
             <div v-if="user" class="dropdown dropdown-end">
