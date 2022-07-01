@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="card bg-base-100 shadow-xl" :class="fluid ? null : 'w-80'">
+    <div class="card bg-base-100 shadow-xl" :class="fluid ? null : 'md:w-80'">
         <figure class="px-10 pt-10 !justify-start">
             <div class="radial-progress" :style="`--value:${progress}; --thickness: 0.25rem`">{{ progress
             }}%</div>
