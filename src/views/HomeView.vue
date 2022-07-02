@@ -2,23 +2,20 @@
 </script>
 
 <template>
-  <div class="container mx-auto lg:my-14">
+  <div class="container mx-auto mb-24 mt-6 lg:my-14">
     <el-main>
       <h1 class="text-4xl mb-8">Welcome to Amar Progress!</h1>
-      <div class="alert alert-success shadow-lg mt-4 mb-6">
-        <div>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-            class="stroke-current flex-shrink-0 w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <span>New dashboard is here!</span>
-        </div>
-      </div>
-      <p class="text-xl ">
-        This is a progress tracking app for students.<br />
-        Get started by making a new account!
+
+      <p class="text-xl">
+        This is a progress tracking app for students. Simply select the chapters you want to complete and this will show
+        you how much you completed in each subject. Only for HSC 2022 Science Students.
       </p>
+
+      <p class="text-xl mt-4">
+        You will need to sign up in order to use this site.
+      </p>
+
+      <router-link :to="{ name: 'login' }" class="btn btn-primary mt-8">Get Started</router-link>
     </el-main>
 
   </div>
