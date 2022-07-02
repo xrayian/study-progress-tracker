@@ -24,8 +24,8 @@ export interface Subject {
 
 export interface SubjectDashboardData {
   id: string;
-  chapters: string;
-  planned: string;
-  cqFinished: string;
-  mcqFinished: string;
+  chapters: number;
+  planned: number;
+  cqFinished: number;
+  mcqFinished: number;
 }
