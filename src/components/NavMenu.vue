@@ -20,12 +20,10 @@ const handleSignOut = async () => { await store.dispatch('logout'); router.push(
 
 </script>
 <template>
-
     <div class="navbar bg-base-100">
         <div class="navbar-start">
             <div class="dropdown">
-                <label class="btn btn-ghost lg:hidden swap swap-rotate">
-                    <input type="checkbox" />
+                <label tabindex="0" class="btn btn-ghost lg:hidden swap swap-rotate">
                     <svg xmlns="http://www.w3.org/2000/svg" class="swap-off h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -39,16 +37,21 @@ const handleSignOut = async () => { await store.dispatch('logout'); router.push(
                 </label>
                 <ul tabindex="0"
                     class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                    <li>
-                        <router-link class="rounded-md" :class="currentRoute == 'about' ? 'active' : null"
-                            :to="{ name: 'about' }">
-                            About
-                        </router-link>
+                    <li v-if="user != null">
+                        <router-link class="rounded-md" :class="currentRoute == 'dashboard' ? 'active' : null"
+                            :to="{ name: 'dashboard' }">
+                            Dashboard</router-link>
                     </li>
                     <li v-if="user != null">
                         <router-link class="rounded-md" :class="currentRoute == 'progress-control' ? 'active' : null"
                             :to="{ name: 'progress-control' }">
                             Progress</router-link>
+                    </li>
+                    <li>
+                        <router-link class="rounded-md" :class="currentRoute == 'about' ? 'active' : null"
+                            :to="{ name: 'about' }">
+                            About
+                        </router-link>
                     </li>
                 </ul>
             </div>
@@ -57,17 +60,22 @@ const handleSignOut = async () => { await store.dispatch('logout'); router.push(
         <div v-if="authReady" class="navbar-end">
             <div class="hidden lg:flex pr-3">
                 <ul class="menu menu-horizontal p-0">
-                    <li>
-                        <router-link class="rounded-md mx-[2px]" :class="currentRoute == 'about' ? 'active' : null"
-                            :to="{ name: 'about' }">
-                            About
-                        </router-link>
+                    <li v-if="user != null">
+                        <router-link class="rounded-md" :class="currentRoute == 'dashboard' ? 'active' : null"
+                            :to="{ name: 'dashboard' }">
+                            Dashboard</router-link>
                     </li>
                     <li v-if="user != null">
                         <router-link class="rounded-md mx-[2px]"
                             :class="currentRoute == 'progress-control' ? 'active' : null"
                             :to="{ name: 'progress-control' }">
                             Progress</router-link>
+                    </li>
+                    <li>
+                        <router-link class="rounded-md mx-[2px]" :class="currentRoute == 'about' ? 'active' : null"
+                            :to="{ name: 'about' }">
+                            About
+                        </router-link>
                     </li>
                 </ul>
             </div>

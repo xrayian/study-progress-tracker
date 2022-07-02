@@ -3,7 +3,6 @@ export interface Chapter {
   number: string;
   name: string;
   subject_id: string;
-  // progress: number;
   cq: boolean;
   mcq: boolean;
   planned: boolean;
@@ -21,4 +20,12 @@ export interface Subject {
   name: string;
   slug: string;
   group: string;
+}
+
+export interface SubjectDashboardData {
+  id: string;
+  chapters: number;
+  planned: number;
+  cqFinished: number;
+  mcqFinished: number;
 }

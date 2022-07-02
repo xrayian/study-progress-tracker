@@ -19,6 +19,11 @@ const router = createRouter({
       name: "progress-control",
       component: () => import("../views/ProgressControl.vue"),
     },
+    {
+      path: "/dashboard",
+      name: "dashboard",
+      component: () => import("../views/DashboardView.vue"),
+    },
 
     //auth
     {
