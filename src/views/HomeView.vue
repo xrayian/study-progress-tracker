@@ -18,8 +18,11 @@ const store = useStore();
         You will need to sign up in order to use this site.
       </p>
 
-      <router-link :to="{ name: store.state.user != null ? 'dashboard' : 'login' }" class="btn btn-primary mt-8">Get
-        Started
+      <router-link v-if="store.state.user != null" :to="{ name: 'dashboard' }" class="btn btn-primary mt-8">
+        Visit Dashboard
+      </router-link>
+      <router-link v-else :to="{ name: 'login' }" class="btn btn-primary mt-8">
+        Get Started
       </router-link>
     </el-main>
 
