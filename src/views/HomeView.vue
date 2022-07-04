@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 const store = useStore();
+const authReady = computed(() => {
+  return store.state.isAuthReady;
+});
 
 </script>
 
@@ -14,16 +18,19 @@ const store = useStore();
         you how much you completed in each subject. Only for HSC 2022 Science Students.
       </p>
 
-      <p class="text-xl mt-4" v-if="store.state.user == null">
-        You will need to sign up in order to use this site.
-      </p>
 
-      <router-link v-if="store.state.user != null" :to="{ name: 'dashboard' }" class="btn btn-primary mt-8">
-        Visit Dashboard
-      </router-link>
-      <router-link v-else :to="{ name: 'login' }" class="btn btn-primary mt-8">
-        Get Started
-      </router-link>
+      <template v-if=authReady>
+        <p class="text-xl mt-4" v-if="store.state.user == null">
+          You will need to sign up in order to use this site.
+        </p>
+        <router-link v-if="store.state.user != null" :to="{ name: 'dashboard' }" class="btn btn-primary mt-8">
+          Visit Dashboard
+        </router-link>
+        <router-link v-else :to="{ name: 'login' }" class="btn btn-primary mt-8">
+          Get Started
+        </router-link>
+      </template>
+
     </el-main>
 
   </div>

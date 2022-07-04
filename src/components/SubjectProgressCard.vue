@@ -10,7 +10,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="card bg-base-100 shadow-xl" :class="fluid ? null : 'md:w-80'">
+    <div class="card" :class="fluid ? 'glass' : 'md:w-72 bg-base-300 shadow-lg shadow-base-200'">
         <figure class="px-10 pt-10 !justify-start">
             <div class="radial-progress" :style="`--value:${progress}; --thickness: 0.25rem`">{{ progress
             }}%</div>
@@ -24,7 +24,7 @@ defineProps({
                     </el-icon>
                     Chapters {{ data.chapters ?? '0' }}
                 </div>
-                <div class="badge badge-warning gap-2">
+                <div v-if="data.planned" class="badge badge-warning gap-2">
                     <el-icon>
                         <StarFilled />
                     </el-icon>
@@ -33,16 +33,13 @@ defineProps({
                 <div v-if="data.mcqFinished != null && data.mcqFinished > 0" class="badge badge-success">MCQ {{
                         data.mcqFinished ?? '0'
                 }}/{{
-        data.planned
-        ??
-        '0'
+        data.planned == 0 ? data.chapters : data.planned
 }}
                 </div>
                 <div v-if="data.cqFinished != null && data.cqFinished > 0" class="badge badge-success">CQ {{
                         data.cqFinished ?? '0'
                 }}/{{
-        data.planned ??
-        '0'
+        data.planned == 0 ? data.chapters : data.planned
 }}
                 </div>
             </div>
