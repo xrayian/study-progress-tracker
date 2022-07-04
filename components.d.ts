@@ -17,7 +17,6 @@ declare module '@vue/runtime-core' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     FooterMenu: typeof import('./src/components/FooterMenu.vue')['default']
     NavMenu: typeof import('./src/components/NavMenu.vue')['default']
-    OverallProgressCard: typeof import('./src/components/OverallProgressCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SubjectProgressCard: typeof import('./src/components/SubjectProgressCard.vue')['default']

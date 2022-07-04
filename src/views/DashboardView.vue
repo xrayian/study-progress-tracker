@@ -116,7 +116,6 @@ const calculateOverall = (() => {
         overallStats.cqFinished += subject.cqFinished;
         overallStats.mcqFinished += subject.mcqFinished;
     });
-    console.log(overallStats);
 });
 
 //calculate computed values
@@ -128,8 +127,13 @@ const fetchAllData = (async () => {
 })
 
 const calculateProgress = ((subject: SubjectDashboardData) => {
-    const percentage = (((subject.cqFinished + subject.mcqFinished) / 2) / subject.planned) * 100
-    return Math.ceil(percentage);
+    let determiningFactor = subject.planned;
+    if (determiningFactor == 0) {
+        determiningFactor = subject.chapters;
+    }
+    const percentage = ((subject.cqFinished / determiningFactor) * 70) + ((subject.mcqFinished / determiningFactor) * 30)
+    const calculatedNumber = Math.ceil(percentage);
+    return calculatedNumber > 100 ? 100 : calculatedNumber;
 })
 
 // startup
@@ -175,18 +179,18 @@ onMounted(async () => {
                     :data="subjectStats[4]" />
                 <subject-progress-card title="Physics 2nd Paper" :progress="calculateProgress(subjectStats[5])"
                     :data="subjectStats[5]" />
-                <subject-progress-card title="Chemistry 1st Paper" :progress="calculateProgress(subjectStats[0])"
+                <subject-progress-card title="Chemistry 1st Paper" :progress="calculateProgress(subjectStats[6])"
                     :data="subjectStats[6]" />
-                <subject-progress-card title="Chemistry 2nd Paper" :progress="calculateProgress(subjectStats[0])"
+                <subject-progress-card title="Chemistry 2nd Paper" :progress="calculateProgress(subjectStats[7])"
                     :data="subjectStats[7]" />
-                <subject-progress-card title="Higher Maths 1st Paper" :progress="calculateProgress(subjectStats[0])"
-                    :data="subjectStats[8]" />
-                <subject-progress-card title="Higher Maths 2nd Paper" :progress="calculateProgress(subjectStats[0])"
-                    :data="subjectStats[9]" />
-                <subject-progress-card title="Biology 1st Paper" :progress="calculateProgress(subjectStats[0])"
+                <subject-progress-card title="Higher Maths 1st Paper" :progress="calculateProgress(subjectStats[10])"
                     :data="subjectStats[10]" />
-                <subject-progress-card title="Biology 2nd Paper" :progress="calculateProgress(subjectStats[0])"
+                <subject-progress-card title="Higher Maths 2nd Paper" :progress="calculateProgress(subjectStats[11])"
                     :data="subjectStats[11]" />
+                <subject-progress-card title="Biology 1st Paper" :progress="calculateProgress(subjectStats[8])"
+                    :data="subjectStats[8]" />
+                <subject-progress-card title="Biology 2nd Paper" :progress="calculateProgress(subjectStats[9])"
+                    :data="subjectStats[9]" />
             </div>
         </el-main>
         <el-main class="my-32" v-else>
