@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import router from '@/router';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { themeChange } from 'theme-change';
 
 const store = useStore();
 
@@ -14,6 +15,10 @@ const authReady = computed(() => {
 });
 const currentRoute = computed(() => {
     return useRoute().name
+})
+
+onMounted(() => {
+    themeChange(false)
 })
 
 const handleSignOut = async () => { await store.dispatch('logout'); router.push('/') }
@@ -76,6 +81,32 @@ const handleSignOut = async () => { await store.dispatch('logout'); router.push(
                             :to="{ name: 'about' }">
                             About
                         </router-link>
+                    </li>
+                    <li tabindex="0">
+                        <a>
+                            🎨 Theme
+                            <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24">
+                                <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                            </svg>
+                        </a>
+                        <ul class="p-2 bg-base-100" data-choose-theme>
+                            <li>
+                                <a data-set-theme="dracula" data-act-class="outline">Dracula</a>
+                            </li>
+                            <li>
+                                <a data-set-theme="emerald" data-act-class="outline">Emerald</a>
+                            </li>
+                            <li>
+                                <a data-set-theme="garden" data-act-class="outline">Garden</a>
+                            </li>
+                            <li>
+                                <a data-set-theme="light" data-act-class="outline">Light</a>
+                            </li>
+                            <li>
+                                <a data-set-theme="dark" data-act-class="outline">Dark</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
