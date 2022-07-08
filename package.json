@@ -14,6 +14,7 @@
     "daisyui": "^2.17.0",
     "element-plus": "^2.2.6",
     "firebase": "^9.8.3",
+    "theme-change": "^2.1.0",
     "vue": "^3.2.36",
     "vue-router": "^4.0.15",
     "vue3-spinners": "^1.2.1",

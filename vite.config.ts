@@ -39,8 +39,6 @@ export default defineConfig({
             type: "image/png",
           },
         ],
-        theme_color: "#ffffff",
-        background_color: "#ffffff",
         display: "standalone",
       },
       workbox: {
