@@ -3,7 +3,7 @@ import { onMounted, ref, type Ref } from 'vue'
 import type { Subject, Chapter } from '@/interfaces';
 import { useStore } from 'vuex';
 import router from '@/router';
-import { collection, getDocs, getDoc, setDoc, doc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, setDoc, doc, updateDoc, orderBy, query } from 'firebase/firestore';
 import { db } from '@/FirebaseInit'
 import { VueSpinner } from 'vue3-spinners';
 
@@ -16,8 +16,9 @@ const loadingComplete: Ref<boolean> = ref(false);
 const tableRefreshingComplete: Ref<boolean> = ref(false);
 
 const getSubjectData = async () => {
-    const querySnapshot = await getDocs(collection(db, "subjects"));
+    const querySnapshot = await getDocs(query(collection(db, "subjects"), orderBy('name')));
     querySnapshot.forEach((doc) => {
+        
         subjectList.value.push(
             {
                 id: doc.id,
@@ -30,7 +31,7 @@ const getSubjectData = async () => {
 }
 
 const getChapterData = async (subjectId: string) => {
-    const querySnapshot = await getDocs(collection(db, `subjects/${subjectId}/chapters`));
+    const querySnapshot = await getDocs(query(collection(db, `subjects/${subjectId}/chapters`), orderBy('number')));
     const newChapters: Chapter[] = [];
     querySnapshot.forEach((doc) => {
         const newChapter: Chapter = {

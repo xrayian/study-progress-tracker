@@ -13,7 +13,7 @@
     "@element-plus/icons-vue": "^2.0.6",
     "daisyui": "^2.17.0",
     "element-plus": "^2.2.6",
-    "firebase": "^9.8.3",
+    "firebase": "^9.12.1",
     "vue": "^3.2.36",
     "vue-router": "^4.0.15",
     "vue3-spinners": "^1.2.1",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.0",
+    "@types/firebase": "^3.2.1",
     "@types/node": "^16.11.36",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vue/eslint-config-typescript": "^11.0.0",
