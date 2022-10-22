@@ -30,6 +30,12 @@ defineProps({
                     </el-icon>
                     Planned {{ data.planned ?? '0' }}
                 </div>
+                <div v-if="data.revised" class="badge badge-primary gap-2">
+                    <el-icon>
+                        <VideoCameraFilled />
+                    </el-icon>
+                    Revised {{ data.revised ?? '0' }}
+                </div>
                 <div v-if="data.mcqFinished != null && data.mcqFinished > 0" class="badge badge-success">MCQ {{
                         data.mcqFinished ?? '0'
                 }}/{{

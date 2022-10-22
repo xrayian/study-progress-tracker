@@ -1,151 +1,202 @@
 <script setup lang="ts">
-import SubjectProgressCard from '@/components/SubjectProgressCard.vue';
-import { db } from '@/FirebaseInit';
-import router from '@/router';
-import { doc, getDoc, getDocs, collection, type DocumentData } from '@firebase/firestore';
-import { onMounted, ref } from 'vue';
-import { VueSpinner } from 'vue3-spinners';
-import { useStore } from 'vuex';
-import type { SubjectDashboardData } from '@/interfaces'
+import SubjectProgressCard from "@/components/SubjectProgressCard.vue";
+import { db } from "@/FirebaseInit";
+import router from "@/router";
+import {
+    doc,
+    getDoc,
+    getDocs,
+    collection,
+    type DocumentData,
+} from "@firebase/firestore";
+import { onMounted, ref } from "vue";
+import { VueSpinner } from "vue3-spinners";
+import { useStore } from "vuex";
+import type { SubjectDashboardData } from "@/interfaces";
 
 //consts
 const store = useStore();
 const hasLoaded = ref(false);
-const overallStats: SubjectDashboardData = { id: 'overall', chapters: 0, cqFinished: 0, mcqFinished: 0, planned: 0 }
+const overallStats: SubjectDashboardData = {
+    id: "overall",
+    chapters: 0,
+    cqFinished: 0,
+    mcqFinished: 0,
+    planned: 0,
+    revised: 0,
+};
 const subjectStats: SubjectDashboardData[] = [
     {
-        id: '1',
+        id: "1",
         chapters: 0,
         mcqFinished: 0,
-        cqFinished: 0, planned: 0
-    }, {
-        id: '2',
-        chapters: 0,
-        mcqFinished: 0,
-        cqFinished: 0, planned: 0
-    }, {
-        id: '3',
-        chapters: 0,
-        mcqFinished: 0,
-        cqFinished: 0, planned: 0
-    }, {
-        id: '4',
-        chapters: 0,
-        mcqFinished: 0,
-        cqFinished: 0, planned: 0
-    }, {
-        id: '5',
-        chapters: 0,
-        mcqFinished: 0,
-        cqFinished: 0, planned: 0
-    }, {
-        id: '6',
-        chapters: 0,
-        mcqFinished: 0,
-        cqFinished: 0, planned: 0
-    }, {
-        id: '7',
-        chapters: 0,
-        mcqFinished: 0,
-        cqFinished: 0, planned: 0
-    }, {
-        id: '8',
-        chapters: 0,
-        mcqFinished: 0,
-        cqFinished: 0, planned: 0
-    }, {
-        id: '9',
-        chapters: 0,
-        mcqFinished: 0,
-        cqFinished: 0, planned: 0
-    }, {
-        id: '10',
-        chapters: 0,
-        mcqFinished: 0,
-        cqFinished: 0, planned: 0
-    }, {
-        id: '11',
-        chapters: 0,
-        mcqFinished: 0,
-        cqFinished: 0, planned: 0
-    }, {
-        id: '12',
-        chapters: 0,
-        mcqFinished: 0,
-        cqFinished: 0, planned: 0
+        revised: 0,
+        cqFinished: 0,
+        planned: 0,
     },
-]
-
+    {
+        id: "2",
+        chapters: 0,
+        mcqFinished: 0,
+        revised: 0,
+        cqFinished: 0,
+        planned: 0,
+    },
+    {
+        id: "3",
+        chapters: 0,
+        mcqFinished: 0,
+        revised: 0,
+        cqFinished: 0,
+        planned: 0,
+    },
+    {
+        id: "4",
+        chapters: 0,
+        mcqFinished: 0,
+        revised: 0,
+        cqFinished: 0,
+        planned: 0,
+    },
+    {
+        id: "5",
+        chapters: 0,
+        mcqFinished: 0,
+        revised: 0,
+        cqFinished: 0,
+        planned: 0,
+    },
+    {
+        id: "6",
+        chapters: 0,
+        mcqFinished: 0,
+        revised: 0,
+        cqFinished: 0,
+        planned: 0,
+    },
+    {
+        id: "7",
+        chapters: 0,
+        mcqFinished: 0,
+        revised: 0,
+        cqFinished: 0,
+        planned: 0,
+    },
+    {
+        id: "8",
+        chapters: 0,
+        mcqFinished: 0,
+        revised: 0,
+        cqFinished: 0,
+        planned: 0,
+    },
+    {
+        id: "9",
+        chapters: 0,
+        mcqFinished: 0,
+        revised: 0,
+        cqFinished: 0,
+        planned: 0,
+    },
+    {
+        id: "10",
+        chapters: 0,
+        mcqFinished: 0,
+        revised: 0,
+        cqFinished: 0,
+        planned: 0,
+    },
+    {
+        id: "11",
+        chapters: 0,
+        mcqFinished: 0,
+        revised: 0,
+        cqFinished: 0,
+        planned: 0,
+    },
+    {
+        id: "12",
+        chapters: 0,
+        mcqFinished: 0,
+        revised: 0,
+        cqFinished: 0,
+        planned: 0,
+    },
+];
 
 //load user progress data
-const getProgressData = (async () => {
+const getProgressData = async () => {
     const docRef = doc(db, "progress", store.state.user.uid);
     const docSnap = await getDoc(docRef);
     const data = docSnap.data();
     if (data != null) {
-        updateSubjectDashboardFromProgress(data)
+        updateSubjectDashboardFromProgress(data);
     }
-});
+};
 
-const updateSubjectDashboardFromProgress = ((data: DocumentData) => {
+const updateSubjectDashboardFromProgress = (data: DocumentData) => {
     const keys = Object.keys(data);
     keys.forEach((key) => {
         subjectStats.forEach((subject) => {
-            if (key.split('-')[0] == subject.id) {
-                data[key].planned ? subject.planned += 1 : null;
-                data[key].cq ? subject.cqFinished += 1 : null;
-                data[key].mcq ? subject.mcqFinished += 1 : null;
+            if (key.split("-")[0] == subject.id) {
+                data[key].planned ? (subject.planned += 1) : null;
+                data[key].cq ? (subject.cqFinished += 1) : null;
+                data[key].mcq ? (subject.mcqFinished += 1) : null;
+                data[key].revised ? (subject.revised += 1) : null;
             }
         });
-    })
-})
+    });
+};
 
 //load subject data
-const getSubjectChapterCount = (async () => {
+const getSubjectChapterCount = async () => {
     for (let i = 0; i < subjectStats.length; i++) {
-        const docRef = getDocs(collection(db, `subjects/${subjectStats[i].id}/chapters`));
+        const docRef = getDocs(
+            collection(db, `subjects/${subjectStats[i].id}/chapters`)
+        );
         const size = (await docRef).size;
         subjectStats[i].chapters = size;
     }
-})
+};
 
-const calculateOverall = (() => {
+const calculateOverall = () => {
     subjectStats.forEach((subject) => {
         overallStats.planned += subject.planned;
         overallStats.chapters += subject.chapters;
         overallStats.cqFinished += subject.cqFinished;
         overallStats.mcqFinished += subject.mcqFinished;
+        overallStats.revised += subject.revised;
     });
-});
+};
 
 //calculate computed values
-const fetchAllData = (async () => {
+const fetchAllData = async () => {
     await getProgressData();
     await getSubjectChapterCount();
     calculateOverall();
     hasLoaded.value = true;
-})
+};
 
-const calculateProgress = ((subject: SubjectDashboardData) => {
+const calculateProgress = (subject: SubjectDashboardData) => {
     let determiningFactor = subject.planned;
     if (determiningFactor == 0) {
         determiningFactor = subject.chapters;
     }
-    const percentage = ((subject.cqFinished / determiningFactor) * 70) + ((subject.mcqFinished / determiningFactor) * 30)
+    const percentage =
+        (subject.cqFinished / determiningFactor) * 70 +
+        (subject.mcqFinished / determiningFactor) * 30;
     const calculatedNumber = Math.ceil(percentage);
     return calculatedNumber > 100 ? 100 : calculatedNumber;
-})
+};
 
 // startup
 onMounted(async () => {
-    if (await store.state.user == null) {
-        router.push('/')
+    if ((await store.state.user) == null) {
+        router.push("/");
     } else {
         await fetchAllData();
     }
-})
-
-
+});
 </script>
 <template>
     <div class="container mx-auto my-5">
@@ -194,7 +245,7 @@ onMounted(async () => {
             </div>
         </el-main>
         <el-main class="my-32" v-else>
-            <vue-spinner size='50' class="mx-auto" />
+            <vue-spinner size="50" class="mx-auto" />
         </el-main>
     </div>
 </template>
