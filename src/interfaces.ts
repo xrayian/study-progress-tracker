@@ -1,11 +1,12 @@
 export interface Chapter {
   id: string;
-  number: string;
+  number: number;
   name: string;
   subject_id: string;
   cq: boolean;
   mcq: boolean;
   planned: boolean;
+  revised: boolean;
 }
 
 export interface User {
@@ -28,4 +29,5 @@ export interface SubjectDashboardData {
   planned: number;
   cqFinished: number;
   mcqFinished: number;
+  revised: number;
 }

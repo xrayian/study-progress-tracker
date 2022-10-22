@@ -18,7 +18,7 @@ const tableRefreshingComplete: Ref<boolean> = ref(false);
 const getSubjectData = async () => {
     const querySnapshot = await getDocs(query(collection(db, "subjects"), orderBy('name')));
     querySnapshot.forEach((doc) => {
-        
+
         subjectList.value.push(
             {
                 id: doc.id,
@@ -31,7 +31,7 @@ const getSubjectData = async () => {
 }
 
 const getChapterData = async (subjectId: string) => {
-    const querySnapshot = await getDocs(query(collection(db, `subjects/${subjectId}/chapters`), orderBy('number')));
+    const querySnapshot = await getDocs(query(collection(db, `subjects/${subjectId}/chapters`)));
     const newChapters: Chapter[] = [];
     querySnapshot.forEach((doc) => {
         const newChapter: Chapter = {
@@ -39,8 +39,9 @@ const getChapterData = async (subjectId: string) => {
             cq: false,
             mcq: false,
             planned: false,
+            revised: false,
             name: doc.data().name,
-            number: doc.data().number,
+            number: parseFloat(doc.data().number),
             subject_id: subjectId,
         };
         newChapters.push(newChapter);
@@ -65,6 +66,11 @@ const getProgressData = async () => {
                 chapter.planned = progressDoc.data()[chapter.id].planned ?? false;
             } catch (e) {
                 chapter.planned = false;
+            }
+            try {
+                chapter.revised = progressDoc.data()[chapter.id].revised ?? false;
+            } catch (e) {
+                chapter.revised = false;
             }
         })
     }
@@ -96,11 +102,17 @@ const postChapterState = async (chapter: Chapter, updateFor: string, val: boolea
     const docRef = doc(db, "progress", store.state.user.uid);
     const obj: any = {};
     if (updateFor == "mcq") {
-        obj[`${chapter.id}`] = { mcq: val, cq: chapter.cq, planned: chapter.planned }
+        obj[`${chapter.id}`] = { mcq: val, cq: chapter.cq, planned: chapter.planned, revised: chapter.revised }
     } else if (updateFor == "cq") {
-        obj[`${chapter.id}`] = { mcq: chapter.mcq, cq: val, planned: chapter.planned }
+        obj[`${chapter.id}`] = { mcq: chapter.mcq, cq: val, planned: chapter.planned, revised: chapter.revised }
     } else if (updateFor == "planned") {
-        obj[`${chapter.id}`] = { mcq: chapter.mcq, cq: chapter.cq, planned: val }
+        obj[`${chapter.id}`] = {
+            mcq: chapter.mcq, cq: chapter.cq, planned: val, revised: chapter.revised
+        }
+    } else if (updateFor == "revised") {
+        obj[`${chapter.id}`] = {
+            mcq: chapter.mcq, cq: chapter.cq, planned: chapter.planned, revised: val
+        }
     }
     try {
         await updateDoc(docRef, obj);
@@ -119,6 +131,10 @@ const toggleCq = (index: number, chapter: Chapter) => {
 
 const togglePlanned = (index: number, chapter: Chapter) => {
     postChapterState(chapter, 'planned', !chapter.planned).then(() => { chapter.planned = !chapter.planned });
+}
+
+const toggleRevised = (index: number, chapter: Chapter) => {
+    postChapterState(chapter, 'revised', !chapter.revised).then(() => { chapter.revised = !chapter.revised });
 }
 
 onMounted(async () => {
@@ -176,11 +192,12 @@ onMounted(async () => {
                 <h3 class="pt-4 pb-3 md:py-5 text-3xl">{{ activeSubject }}</h3>
                 <div class="overflow-x-auto">
                     <template v-if="tableRefreshingComplete">
-                        <el-table table-layout="auto" class="rounded-xl" :data="tableData">
-                            <el-table-column prop="number" label="#" sort-by="number" />
+                        <el-table table-layout="auto" class="rounded-xl" :data="tableData"
+                            :default-sort="{ prop: 'number', order: 'ascending' }">
+                            <el-table-column prop="number" label="#" />
                             <el-table-column prop="name" label="Name" />
                             <el-table-column label="Progress">
-                                <el-table-column prop="planned" label="Planned">
+                                <el-table-column prop="planned" label="Planned" sortable>
                                     <template #default="scope">
                                         <el-button size="small" :type="scope.row.planned ? 'warning' : 'default'"
                                             @click="togglePlanned(scope.$index, scope.row)">
@@ -191,7 +208,18 @@ onMounted(async () => {
                                         </el-button>
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="mcq" label="MCQ">
+                                <el-table-column prop="revised" label="Revised" sortable>
+                                    <template #default="scope">
+                                        <el-button size="small" :type="scope.row.revised ? 'primary' : 'default'"
+                                            @click="toggleRevised(scope.$index, scope.row)">
+                                            <el-icon :size="18">
+                                                <VideoCameraFilled v-if="scope.row.planned" />
+                                                <VideoCameraFilled v-else />
+                                            </el-icon>
+                                        </el-button>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="mcq" label="MCQ" sortable>
                                     <template #default="scope">
                                         <el-button size="small" :type="scope.row.mcq ? 'success' : 'default'"
                                             @click="toggleMcq(scope.$index, scope.row)">
@@ -201,7 +229,7 @@ onMounted(async () => {
                                         </el-button>
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="cq" label="CQ">
+                                <el-table-column prop="cq" label="CQ" sortable>
                                     <template #default="scope">
                                         <el-button size="small" :type="scope.row.cq ? 'success' : 'default'"
                                             @click="toggleCq(scope.$index, scope.row)">
