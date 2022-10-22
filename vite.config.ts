@@ -25,7 +25,7 @@ export default defineConfig({
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
       manifest: {
         name: "Amar Progress",
-        short_name: "amar-progress",
+        short_name: "Amar Progress HSC",
         description: "HSC Progress tracker for students",
         icons: [
           {
@@ -39,8 +39,8 @@ export default defineConfig({
             type: "image/png",
           },
         ],
-        theme_color: "#ffffff",
-        background_color: "#ffffff",
+        theme_color: "#2a303c",
+        background_color: "#191d24",
         display: "standalone",
       },
       workbox: {
