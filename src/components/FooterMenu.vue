@@ -1,7 +1,7 @@
 <template>
     <footer class="footer items-center p-4 bg-neutral text-neutral-content">
         <div class="items-center grid-flow-col">
-            <p>Amar Progress | Copyright © 2022 - All right reserved</p>
+            <p>Amar Progress | Copyright © 2023 - All right reserved</p>
         </div>
         <div class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
             <a href="https://www.twitter.com/xrayian" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24"

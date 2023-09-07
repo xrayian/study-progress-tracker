@@ -15,7 +15,7 @@ const authReady = computed(() => {
 
       <p class="text-xl">
         This is a progress tracking app for students. Simply select the chapters you want to complete and this will show
-        you how much you completed in each subject. Only for HSC 2022 Science Students.
+        you how much you completed in each subject. Made for HSC 2022-23 Science Students.
       </p>
 
 
