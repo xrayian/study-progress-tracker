@@ -1,12 +1,12 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["element-plus/global", "vite-plugin-pwa/client"]
+    "types": ["element-plus/global.d.ts", "vite-plugin-pwa/client"]
   },
 
   "references": [
