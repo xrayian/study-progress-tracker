@@ -43,4 +43,11 @@ import FooterMenu from './components/FooterMenu.vue';
 *::-webkit-scrollbar-thumb:hover {
   background: var(--el-color-primary);
 }
+
+html {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-image: url('bg.svg');
+}
 </style>
