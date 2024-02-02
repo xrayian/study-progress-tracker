@@ -6,14 +6,14 @@ import FooterMenu from './components/FooterMenu.vue';
 
 <template>
   <div class="h-screen flex flex-col">
-    <nav-menu>
-    </nav-menu>
+    <nav-menu />
     <div class="grow">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <component :is="Component" />
+      </router-view>
     </div>
     <footer-menu />
   </div>
-
 </template>
 
 <style>

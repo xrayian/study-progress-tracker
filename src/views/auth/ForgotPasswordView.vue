@@ -33,7 +33,7 @@ const dismissWarning = () => {
         <div class="max-w-md w-full space-y-8">
             <div>
                 <img class="mx-auto h-20 w-auto" src="@/assets/icon.png" alt="Workflow" />
-                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Reset Password</h2>
+                <h2 class="mt-6 text-center text-3xl font-extrabold">Reset Password</h2>
                 <p class="mt-2 text-center text-sm text-gray-600">
                     Or
                     <router-link :to="{ name: 'login' }" class="font-medium text-indigo-600 hover:text-indigo-500">
