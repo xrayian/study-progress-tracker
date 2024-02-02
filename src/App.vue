@@ -48,6 +48,6 @@ html {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  background-image: url('bg.svg');
+  background-image: url('/bg.svg');
 }
 </style>
